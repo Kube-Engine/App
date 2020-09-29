@@ -3,14 +3,17 @@ project(KubeApp)
 get_filename_component(KubeAppDir ${CMAKE_CURRENT_LIST_FILE} PATH)
 
 set(KubeAppSources
-    ${KubeAppDir}/Dummy.cpp
+    ${KubeAppDir}/Application.hpp
+    ${KubeAppDir}/Application.cpp
+    ${KubeAppDir}/SDLInitializer.hpp
+    ${KubeAppDir}/SDLInitializer.cpp
 )
 
 add_library(${PROJECT_NAME} ${KubeAppSources})
 
 target_link_libraries(${PROJECT_NAME}
 PUBLIC
-    KubeCore
+    KubeGraphics
 )
 
 if(${KF_TESTS})
