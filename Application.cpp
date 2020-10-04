@@ -98,7 +98,7 @@ void Application::processEvents(void)
     }
 }
 
-BackendWindow *Application::CreateBackendWindow(const char *applicationName)
+Graphics::BackendWindow *Application::CreateBackendWindow(const char *applicationName)
 {
     return ::SDL_CreateWindow(
         applicationName,

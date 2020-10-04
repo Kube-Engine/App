@@ -31,8 +31,8 @@ public:
     void tick(void);
     void stop(void);
 
-    [[nodiscard]] Renderer &getRenderer(void) noexcept { return _renderer; }
-    [[nodiscard]] const Renderer &getRenderer(void) const noexcept { return _renderer; }
+    [[nodiscard]] Graphics::Renderer &getRenderer(void) noexcept { return _renderer; }
+    [[nodiscard]] const Graphics::Renderer &getRenderer(void) const noexcept { return _renderer; }
 
 protected:
     virtual void onAboutToRun(void);
@@ -42,11 +42,11 @@ protected:
 
 private:
     SDLInitializer _sdlInitializer;
-    BackendWindow *_window = nullptr;
-    Renderer _renderer;
+    Graphics::BackendWindow *_window = nullptr;
+    Graphics::Renderer _renderer;
     bool _running = false;
 
     void processEvents(void);
 
-    [[nodiscard]] static BackendWindow *CreateBackendWindow(const char *applicationName);
+    [[nodiscard]] static Graphics::BackendWindow *CreateBackendWindow(const char *applicationName);
 };
