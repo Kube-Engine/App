@@ -13,7 +13,7 @@ add_library(${PROJECT_NAME} ${KubeAppSources})
 
 target_link_libraries(${PROJECT_NAME}
 PUBLIC
-    KubeGraphics
+    KubeGraphics KubeECS
 )
 
 if(${KF_TESTS})

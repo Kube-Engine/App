@@ -7,7 +7,9 @@
 
 #include <memory>
 
+#include <Kube/Core/Hash.hpp>
 #include <Kube/Graphics/Renderer.hpp>
+#include <Kube/ECS/Registry.hpp>
 
 #include "SDLInitializer.hpp"
 
@@ -22,31 +24,53 @@ namespace kF { class Application; }
 class kF::Application
 {
 public:
+    /** @brief Construct the application */
     Application(const char *name = "Kube Application", const Version version = Version(0, 1, 0));
-    Application(const Application &other) = delete;
+
+    /** @brief Move constructor */
     Application(Application &&other) = default;
+
+    /** @brief Destroy the application */
     virtual ~Application(void);
 
+    /** @brief Run the application in blocking mode */
     void run(void);
+
+    /** @brief Tick the application */
     void tick(void);
+
+    /** @brief Stop the application */
     void stop(void);
 
-    [[nodiscard]] Graphics::Renderer &getRenderer(void) noexcept { return _renderer; }
-    [[nodiscard]] const Graphics::Renderer &getRenderer(void) const noexcept { return _renderer; }
+    /** @brief Get renderer */
+    [[nodiscard]] Graphics::Renderer &renderer(void) noexcept { return *_renderer; }
+    [[nodiscard]] const Graphics::Renderer &renderer(void) const noexcept { return *_renderer; }
 
 protected:
-    virtual void onAboutToRun(void);
-    virtual void onAboutToClose(void);
-    virtual void onAboutToRender(void);
-    virtual void onRendered(void);
+    /** @brief Virtual callback when application is about to run */
+    virtual void onAboutToRun(void) {}
+
+    /** @brief Virtual callback when application is about to close */
+    virtual void onAboutToClose(void) {}
+
+    /** @brief Virtual callback when application is rendering a frame */
+    virtual void onRender(void) {}
+
+    /** @brief Virtual callback when application frame is rendered (but still not presented) */
+    virtual void onRendered(void) {}
 
 private:
-    SDLInitializer _sdlInitializer;
+    [[no_unique_address]] SDLInitializer _sdlInitializer;
     Graphics::BackendWindow *_window = nullptr;
-    Graphics::Renderer _renderer;
+    Graphics::Renderer::GlobalInstance _renderer;
     bool _running = false;
 
+    /** @brief Process application events */
     void processEvents(void);
 
-    [[nodiscard]] static Graphics::BackendWindow *CreateBackendWindow(const char *applicationName);
+    /** @brief Create a backend window */
+    [[nodiscard]] static Graphics::BackendWindow *CreateBackendWindow(const char *applicationName,
+        const std::uint32_t width, const std::uint32_t height, const bool resizable);
 };
+
+#include "Application.ipp"
