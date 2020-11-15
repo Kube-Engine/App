@@ -23,7 +23,7 @@ static void SigCallback(int)
 }
 
 Application::Application(const char *name, const Version version) :
-    _window(CreateBackendWindow(name, 800, 400, false)),
+    _window(CreateBackendWindow(name, 800, 600, true)),
     _renderer(_window, version)
 {
     ::signal(SIGINT, &SigCallback);
